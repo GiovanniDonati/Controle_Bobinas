@@ -1,5 +1,3 @@
-# backend/app/main.py
-
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from .models.bobina import Bobina
@@ -9,6 +7,7 @@ from .models.historico import Historico
 from datetime import datetime
 
 app = FastAPI()
+
 estoque = Estoque()
 
 class BobinaCreate(BaseModel):
@@ -21,31 +20,43 @@ class BobinaCreate(BaseModel):
 
 @app.post("/bobinas/")
 def criar_bobina(bobina: BobinaCreate):
-    nova_bobina = Bobina(
-        endereco=bobina.endereco,
-        codigo=bobina.codigo,
-        descricao=bobina.descricao,
-        lote=bobina.lote,
-        metragem=bobina.metragem,
-        data_entrada=bobina.data_entrada
-    )
-    estoque.adicionar_bobina(nova_bobina)
-    return {"message": "Bobina criada com sucesso"}
+    try:
+        nova_bobina = Bobina(
+            endereco=bobina.endereco,
+            codigo=bobina.codigo,
+            descricao=bobina.descricao,
+            lote=bobina.lote,
+            metragem=bobina.metragem,
+            data_entrada=bobina.data_entrada
+        )
+        estoque.adicionar_bobina(nova_bobina)
+        return {"message": "Bobina criada com sucesso"}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 @app.delete("/bobinas/{codigo}")
 def deletar_bobina(codigo: str):
-    estoque.remover_bobina(codigo)
-    return {"message": "Bobina removida com sucesso"}
+    try:
+        estoque.remover_bobina(codigo)
+        return {"message": "Bobina removida com sucesso"}
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 @app.put("/bobinas/{codigo}/mover")
 def mover_bobina(codigo: str, novo_endereco: str):
-    estoque.mover_bobina(codigo, novo_endereco)
-    return {"message": "Bobina movida com sucesso"}
+    try:
+        estoque.mover_bobina(codigo, novo_endereco)
+        return {"message": "Bobina movida com sucesso"}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 @app.put("/bobinas/{codigo}/produzir")
 def mover_para_producao(codigo: str):
-    estoque.mover_para_producao(codigo)
-    return {"message": "Bobina movida para produção com sucesso"}
+    try:
+        estoque.mover_para_producao(codigo)
+        return {"message": "Bobina movida para produção com sucesso"}
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
 
 @app.get("/bobinas/{codigo}/historico")
 def obter_historico(codigo: str):
