@@ -7,6 +7,7 @@ class Estoque:
     def __init__(self):
         self.__bobinas = []
         self.__historico = Historico()
+        self.__enderecos_validos = self.__gerar_enderecos_validos()
         
     def __gerar_enderecos_validos(self):
         enderecos = []
@@ -41,8 +42,13 @@ class Estoque:
 
     def __lote_existente(self, lote):
         return any(bobina.lote == lote for bobina in self.__bobinas)
+    
+    def __endereco_valido(self, endereco):
+        return endereco in self.__enderecos_validos
 
     def adicionar_bobina(self, bobina: Bobina):
+        if not self.__endereco_valido(bobina.endereco):
+            raise ValueError(f"Endereço {bobina.endereco} não é válido.")
         if self.__endereco_ocupado(bobina.endereco):
             raise ValueError(f"Endereço {bobina.endereco} já está ocupado por outra bobina.")
         if self.__lote_existente(bobina.lote):
@@ -59,6 +65,8 @@ class Estoque:
             raise ValueError(f"Bobina com código {codigo} não encontrada.")
 
     def mover_bobina(self, codigo, novo_endereco):
+        if not self.__endereco_valido(novo_endereco):
+            raise ValueError(f"Endereço {novo_endereco} não é válido.")
         if self.__endereco_ocupado(novo_endereco):
             raise ValueError(f"Endereço {novo_endereco} já está ocupado por outra bobina.")
         bobina = self.buscar_bobina(codigo)
