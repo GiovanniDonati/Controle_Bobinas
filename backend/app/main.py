@@ -9,7 +9,6 @@ from .models.historico import Historico
 from datetime import datetime
 
 app = FastAPI()
-
 estoque = Estoque()
 
 class BobinaCreate(BaseModel):
