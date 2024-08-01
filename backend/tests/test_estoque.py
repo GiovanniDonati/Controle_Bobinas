@@ -27,8 +27,4 @@ def __gerar_enderecos_validos():
             enderecos.append(f'G3-{letra}{number}')
     
     return enderecos  
-        
-                
-lista = __gerar_enderecos_validos()
 
-print(lista)

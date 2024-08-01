@@ -1,9 +1,24 @@
 from datetime import datetime
-from .bobina import Bobina
 
 class Movimentacao:
-    def __init__(self, bobina: Bobina, tipo: str, data: datetime, localizacao: str):
-        self.bobina = bobina
-        self.tipo = tipo
-        self.data = data
-        self.localizacao = localizacao
+    def __init__(self, bobina, tipo, data, endereco):
+        self.__bobina = bobina
+        self.__tipo = tipo
+        self.__data = data
+        self.__endereco = endereco
+
+    @property
+    def bobina(self):
+        return self.__bobina
+
+    @property
+    def tipo(self):
+        return self.__tipo
+
+    @property
+    def data(self):
+        return self.__data
+
+    @property
+    def endereco(self):
+        return self.__endereco
