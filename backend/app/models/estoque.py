@@ -2,6 +2,7 @@ from .bobina import Bobina
 from .movimentacao import Movimentacao
 from .historico import Historico
 from datetime import datetime
+import re
 
 class Estoque:
     def __init__(self):
@@ -13,7 +14,7 @@ class Estoque:
         enderecos = []
         
         for letra in 'ABCD':
-            for number in range(1,96):
+            for number in range(1, 96):
                 enderecos.append(f'{letra}{number}')
                 
         for number in range(17, 96):
@@ -56,35 +57,35 @@ class Estoque:
         if self.__lote_existente(bobina.lote):
             raise ValueError(f"Lote {bobina.lote} já existe.")
         self.__bobinas.append(bobina)
-        self.__historico.adicionar_movimentacao(Movimentacao(bobina, 'entrada', datetime.now(), bobina.endereco))
+        self.__historico.adicionar_movimentacao(Movimentacao(bobina, 'Cadastro', datetime.now().strftime("%d-%m-%Y, %H:%M"), bobina.endereco))
 
-    def remover_bobina(self, codigo):
-        bobina = self.buscar_bobina(codigo)
+    def remover_bobina(self, lote):
+        bobina = self.buscar_bobina(lote)
         if bobina:
             self.__bobinas.remove(bobina)
-            self.__historico.adicionar_movimentacao(Movimentacao(bobina, 'saída', datetime.now(), 'N/A'))
+            self.__historico.adicionar_movimentacao(Movimentacao(bobina, 'Baixa', datetime.now().strftime("%d-%m-%Y, %H:%M"), 'N/A'))
         else:
-            raise ValueError(f"Bobina com código {codigo} não encontrada.")
+            raise ValueError(f"Bobina com lote {lote} não encontrada.")
 
-    def mover_bobina(self, codigo, novo_endereco):
+    def mover_bobina(self, lote, novo_endereco):
         if not self.__endereco_valido(novo_endereco):
             raise ValueError(f"Endereço {novo_endereco} não é válido.")
         if self.__endereco_ocupado(novo_endereco):
             raise ValueError(f"Endereço {novo_endereco} já está ocupado por outra bobina.")
-        bobina = self.buscar_bobina(codigo)
+        bobina = self.buscar_bobina(lote)
         if bobina:
-            self.__historico.adicionar_movimentacao(Movimentacao(bobina, 'movimentação', datetime.now(), novo_endereco))
+            self.__historico.adicionar_movimentacao(Movimentacao(bobina, 'Movimentação de estoque', datetime.now().strftime("%d-%m-%Y, %H:%M"), novo_endereco))
             bobina.endereco = novo_endereco
         else:
-            raise ValueError(f"Bobina com código {codigo} não encontrada.")
+            raise ValueError(f"Bobina com lote {lote} não encontrada.")
 
-    def mover_para_producao(self, codigo):
-        bobina = self.buscar_bobina(codigo)
+    def mover_para_producao(self, lote):
+        bobina = self.buscar_bobina(lote)
         if bobina:
-            self.__historico.adicionar_movimentacao(Movimentacao(bobina, 'produção', datetime.now(), 'Produção'))
+            self.__historico.adicionar_movimentacao(Movimentacao(bobina, 'Produção', datetime.now().strftime("%d-%m-%Y, %H:%M"), 'Produção'))
             bobina.endereco = 'Produção'
         else:
-            raise ValueError(f"Bobina com código {codigo} não encontrada.")
+            raise ValueError(f"Bobina com lote {lote} não encontrada.")
 
     def buscar_bobina(self, codigo):
         for bobina in self.__bobinas:
@@ -94,3 +95,15 @@ class Estoque:
 
     def obter_historico(self, codigo):
         return self.__historico.obter_historico_por_bobina(codigo)
+
+    def verificar_estoque(self):
+        def ordenar_enderecos(bobina):
+            endereco = bobina.endereco
+            partes = re.split(r'(-|\d+)', endereco)
+            partes = [int(part) if part.isdigit() else part for part in partes]
+            return partes
+        
+        bobinas_ordenadas = sorted(self.__bobinas, key=ordenar_enderecos)
+        
+        for bobina in bobinas_ordenadas:
+            print(f"Endereço: {bobina.endereco}, Código: {bobina.codigo}, Lote: {bobina.lote}, Descrição: {bobina.descricao}, Metragem: {bobina.metragem}")
