@@ -1,7 +1,15 @@
 from datetime import datetime
 
 class Bobina:
-    def __init__(self, endereco: str, codigo: str, descricao: str, lote: str, metragem: float, data_entrada: datetime):
+    def __init__(
+                self,
+                endereco: str,
+                codigo: str,
+                descricao: str,
+                lote: str,
+                metragem: float,
+                data_entrada: datetime
+                ):
         self.__endereco = endereco
         self.__codigo = codigo
         self.__descricao = descricao

@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from datetime import datetime
 from backend.app.models.bobina import Bobina
 from backend.app.models.estoque import Estoque
@@ -10,7 +13,7 @@ def criar_bobina():
     descricao = input("Digite a descrição da bobina: ")
     lote = input("Digite o lote da bobina: ")
     metragem = float(input("Digite a metragem da bobina: "))
-    data_entrada = datetime.strptime(input("Digite a data de entrada da bobina (YYYY-MM-DD): "), "%Y-%m-%d")
+    data_entrada = datetime.now("%d-%m-%Y, %H:%M")
 
     try:
         nova_bobina = Bobina(endereco, codigo, descricao, lote, metragem, data_entrada)

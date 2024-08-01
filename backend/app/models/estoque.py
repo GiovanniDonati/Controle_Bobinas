@@ -36,6 +36,8 @@ class Estoque:
         for letra in 'AB':
             for number in range(1, 12):
                 enderecos.append(f'G3-{letra}{number}')
+        
+        return enderecos
 
     def __endereco_ocupado(self, endereco):
         return any(bobina.endereco == endereco for bobina in self.__bobinas)
