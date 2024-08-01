@@ -13,7 +13,7 @@ def criar_bobina():
     descricao = input("Digite a descrição da bobina: ")
     lote = input("Digite o lote da bobina: ")
     metragem = float(input("Digite a metragem da bobina: "))
-    data_entrada = datetime.now("%d-%m-%Y, %H:%M")
+    data_entrada = datetime.now().strftime("%d-%m-%Y, %H:%M")
 
     try:
         nova_bobina = Bobina(endereco, codigo, descricao, lote, metragem, data_entrada)
@@ -56,6 +56,9 @@ def visualizar_historico():
         for mov in historico:
             print(f"{mov.tipo} em {mov.data} para {mov.endereco}")
 
+def verificar_estoque():
+    estoque.verificar_estoque()
+
 def main():
     while True:
         print("\n1. Criar Bobina")
@@ -63,7 +66,8 @@ def main():
         print("3. Mover Bobina")
         print("4. Mover Bobina para Produção")
         print("5. Visualizar Histórico de Bobina")
-        print("6. Sair")
+        print("6. Verificar Estoque")
+        print("7. Sair")
 
         opcao = input("Escolha uma opção: ")
 
@@ -78,6 +82,8 @@ def main():
         elif opcao == '5':
             visualizar_historico()
         elif opcao == '6':
+            verificar_estoque()
+        elif opcao == '7':
             break
         else:
             print("Opção inválida. Tente novamente.")
