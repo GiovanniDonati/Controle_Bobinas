@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from .models.bobina import Bobina
 from .models.estoque import Estoque
-from .models.movimentacao import Movimentacao
+from .models.cortina import Movimentacao
 from .models.historico import Historico
 from datetime import datetime
 

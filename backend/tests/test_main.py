@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 from datetime import datetime
 from backend.app.models.bobina import Bobina
 from backend.app.models.estoque import Estoque
@@ -8,16 +9,15 @@ from backend.app.models.estoque import Estoque
 estoque = Estoque()
 
 def criar_bobina():
-    endereco = input("Digite o endereço da bobina: ")
-    codigo = input("Digite o código da bobina: ")
-    descricao = input("Digite a descrição da bobina: ")
-    lote = input("Digite o lote da bobina: ")
+    cortina_id_codigo = input("Digite o código da cortina: ")
+    endereco_id_endereco = input("Digite o endereço da bobina: ")
     metragem = float(input("Digite a metragem da bobina: "))
-    data_entrada = datetime.now().strftime("%d-%m-%Y, %H:%M")
+    data_cadastro = datetime.now().strftime("%Y-%m-%d")
+    user_id = int(input("Digite o ID do usuário que está cadastrando: "))
 
     try:
-        nova_bobina = Bobina(endereco, codigo, descricao, lote, metragem, data_entrada)
-        estoque.adicionar_bobina(nova_bobina)
+        nova_bobina = Bobina(None, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem)
+        estoque.adicionar_bobina(nova_bobina, user_id)
         print("Bobina criada com sucesso!")
     except ValueError as e:
         print(f"Erro ao criar bobina: {e}")
@@ -33,16 +33,18 @@ def remover_bobina():
 def mover_bobina():
     codigo = input("Digite o código da bobina a ser movida: ")
     novo_endereco = input("Digite o novo endereço da bobina: ")
+    user_id = int(input("Digite o ID do usuário que está movendo: "))
     try:
-        estoque.mover_bobina(codigo, novo_endereco)
+        estoque.mover_bobina(codigo, novo_endereco, user_id)
         print("Bobina movida com sucesso!")
     except ValueError as e:
         print(f"Erro ao mover bobina: {e}")
 
 def mover_para_producao():
     codigo = input("Digite o código da bobina a ser movida para produção: ")
+    user_id = int(input("Digite o ID do usuário que está movendo: "))
     try:
-        estoque.mover_para_producao(codigo)
+        estoque.mover_para_producao(codigo, user_id)
         print("Bobina movida para produção com sucesso!")
     except ValueError as e:
         print(f"Erro ao mover bobina para produção: {e}")
@@ -54,10 +56,7 @@ def visualizar_historico():
         print("Histórico não encontrado")
     else:
         for mov in historico:
-            print(f"{mov.tipo} em {mov.data} para {mov.endereco}")
-
-def verificar_estoque():
-    estoque.verificar_estoque()
+            print(f"{mov.tipo_mov} em {mov.date_mov} de {mov.endereco_antigo}")
 
 def main():
     while True:
@@ -66,8 +65,7 @@ def main():
         print("3. Mover Bobina")
         print("4. Mover Bobina para Produção")
         print("5. Visualizar Histórico de Bobina")
-        print("6. Verificar Estoque")
-        print("7. Sair")
+        print("6. Sair")
 
         opcao = input("Escolha uma opção: ")
 
@@ -82,8 +80,6 @@ def main():
         elif opcao == '5':
             visualizar_historico()
         elif opcao == '6':
-            verificar_estoque()
-        elif opcao == '7':
             break
         else:
             print("Opção inválida. Tente novamente.")
