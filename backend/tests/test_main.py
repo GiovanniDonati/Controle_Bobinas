@@ -1,14 +1,14 @@
+from datetime import datetime
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-
-from datetime import datetime
-from backend.app.models.bobina import Bobina
 from backend.app.models.estoque import Estoque
+from backend.app.models.bobina import Bobina
 
 estoque = Estoque()
 
 def criar_bobina():
+    id_lote = input("Digite o número do lote: ")
     cortina_id_codigo = input("Digite o código da cortina: ")
     endereco_id_endereco = input("Digite o endereço da bobina: ")
     metragem = float(input("Digite a metragem da bobina: "))
@@ -16,7 +16,7 @@ def criar_bobina():
     user_id = int(input("Digite o ID do usuário que está cadastrando: "))
 
     try:
-        nova_bobina = Bobina(None, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem)
+        nova_bobina = Bobina(id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem)
         estoque.adicionar_bobina(nova_bobina, user_id)
         print("Bobina criada com sucesso!")
     except ValueError as e:

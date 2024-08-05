@@ -2,8 +2,8 @@ import pymysql
 
 DATABASE = {
     'host': 'localhost',
-    'user': 'donati',
-    'password': '********',
+    'user': 'root',
+    'password': 'Libertyme_007',
     'db': 'app_cortinas',
     'charset': 'utf8mb4',
     'cursorclass': pymysql.cursors.DictCursor

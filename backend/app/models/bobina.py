@@ -1,4 +1,7 @@
 from datetime import datetime
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from ..database.config import get_connection
 
 class Bobina:
@@ -10,11 +13,11 @@ class Bobina:
         self.metragem = metragem
 
     @classmethod
-    def create(cls, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
+    def create(cls, id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
         connection = get_connection()
         with connection.cursor() as cursor:
-            sql = "INSERT INTO bobina (cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem) VALUES (%s, %s, %s, %s)"
-            cursor.execute(sql, (cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem))
+            sql = "INSERT INTO bobina (id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(sql, (id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem))
             connection.commit()
             bobina_id = cursor.lastrowid
         connection.close()

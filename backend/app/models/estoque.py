@@ -67,6 +67,7 @@ class Estoque:
         if self.__lote_existente(bobina.id_lote):
             raise ValueError(f"Lote {bobina.id_lote} já existe.")
         bobina = Bobina.create(
+            bobina.id_lote,
             bobina.cortina_id_codigo,
             bobina.endereco_id_endereco,
             bobina.data_cadastro,
