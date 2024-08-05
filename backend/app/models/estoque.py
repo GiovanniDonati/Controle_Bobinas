@@ -82,19 +82,27 @@ class Estoque:
             bobina.metragem
         )
 
-    def remover_bobina(self, codigo):
-        bobina = Bobina.get(codigo)
+    def remover_bobina(self, lote, user_id):
+        bobina = Bobina.get(lote)
         if bobina:
-            bobina.delete()
+            Historico.create(
+                bobina.id_lote,
+                user_id,
+                bobina.endereco_id_endereco,
+                datetime.now().strftime("%Y-%m-%d"),
+                'Baixa',
+                bobina.metragem
+                )
+            bobina.delete(lote)
         else:
-            raise ValueError(f"Bobina com código {codigo} não encontrada.")
+            raise ValueError(f"Bobina com lote {lote} não encontrada.")
 
-    def mover_bobina(self, codigo, novo_endereco, user_id):
+    def mover_bobina(self, lote, novo_endereco, user_id):
         if not self.__endereco_valido(novo_endereco):
             raise ValueError(f"Endereço {novo_endereco} não é válido.")
         if self.__endereco_ocupado(novo_endereco):
             raise ValueError(f"Endereço {novo_endereco} já está ocupado por outra bobina.")
-        bobina = Bobina.get(codigo)
+        bobina = Bobina.get(lote)
         if bobina:
             Historico.create(
                 bobina.id_lote,
@@ -106,10 +114,10 @@ class Estoque:
             )
             Bobina.update_endereco(bobina.id_lote, novo_endereco)
         else:
-            raise ValueError(f"Bobina com código {codigo} não encontrada.")
+            raise ValueError(f"Bobina com lote {lote} não encontrada.")
 
-    def mover_para_producao(self, codigo, user_id):
-        bobina = Bobina.get(codigo)
+    def mover_para_producao(self, lote, user_id):
+        bobina = Bobina.get(lote)
         if bobina:
             Historico.create(
                 bobina.id_lote,
@@ -121,13 +129,13 @@ class Estoque:
             )
             Bobina.update_endereco(bobina.id_lote, 'Produção')
         else:
-            raise ValueError(f"Bobina com código {codigo} não encontrada.")
+            raise ValueError(f"Bobina com código {lote} não encontrada.")
 
-    def buscar_bobina(self, codigo):
-        return Bobina.get(codigo)
+    def buscar_bobina(self, lote):
+        return Bobina.get(lote)
 
-    def obter_historico(self, codigo):
-        bobina = Bobina.get(codigo)
+    def obter_historico(self, lote):
+        bobina = Bobina.get(lote)
         if bobina:
             return Historico.get_by_bobina(bobina.id_lote)
         return []

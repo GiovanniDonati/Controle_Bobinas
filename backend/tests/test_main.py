@@ -23,35 +23,36 @@ def criar_bobina():
         print(f"Erro ao criar bobina: {e}")
 
 def remover_bobina():
-    codigo = input("Digite o código da bobina a ser removida: ")
+    lote = input("Digite o lote da bobina a ser removida: ")
+    user_id = int(input("Digite o ID do usuário que está removendo: "))
     try:
-        estoque.remover_bobina(codigo)
+        estoque.remover_bobina(lote, user_id)
         print("Bobina removida com sucesso!")
     except ValueError as e:
         print(f"Erro ao remover bobina: {e}")
 
 def mover_bobina():
-    codigo = input("Digite o código da bobina a ser movida: ")
+    lote = input("Digite o lote da bobina a ser movida: ")
     novo_endereco = input("Digite o novo endereço da bobina: ")
     user_id = int(input("Digite o ID do usuário que está movendo: "))
     try:
-        estoque.mover_bobina(codigo, novo_endereco, user_id)
+        estoque.mover_bobina(lote, novo_endereco, user_id)
         print("Bobina movida com sucesso!")
     except ValueError as e:
         print(f"Erro ao mover bobina: {e}")
 
 def mover_para_producao():
-    codigo = input("Digite o código da bobina a ser movida para produção: ")
+    lote = input("Digite o lote da bobina a ser movida para produção: ")
     user_id = int(input("Digite o ID do usuário que está movendo: "))
     try:
-        estoque.mover_para_producao(codigo, user_id)
+        estoque.mover_para_producao(lote, user_id)
         print("Bobina movida para produção com sucesso!")
     except ValueError as e:
         print(f"Erro ao mover bobina para produção: {e}")
 
 def visualizar_historico():
-    codigo = input("Digite o código da bobina para visualizar o histórico: ")
-    historico = estoque.obter_historico(codigo)
+    lote = input("Digite o lote da bobina para visualizar o histórico: ")
+    historico = estoque.obter_historico(lote)
     if not historico:
         print("Histórico não encontrado")
     else:
