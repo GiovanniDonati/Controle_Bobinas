@@ -1,54 +1,64 @@
 from datetime import datetime
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+from ..database.config import get_connection
 
 class Bobina:
-    def __init__(
-                self,
-                endereco: str,
-                codigo: str,
-                descricao: str,
-                lote: str,
-                metragem: float,
-                data_entrada: datetime
-                ):
-        self.__endereco = endereco
-        self.__codigo = codigo
-        self.__descricao = descricao
-        self.__lote = lote
-        self.__metragem = metragem
-        self.__data_entrada = data_entrada
+    def __init__(self, id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
+        self.id_lote = id_lote
+        self.cortina_id_codigo = cortina_id_codigo
+        self.endereco_id_endereco = endereco_id_endereco
+        self.data_cadastro = data_cadastro
+        self.metragem = metragem
 
-    @property
-    def endereco(self):
-        return self.__endereco
+    @classmethod
+    def create(cls, id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sql = "INSERT INTO bobina (id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem) VALUES (%s, %s, %s, %s, %s)"
+            cursor.execute(sql, (id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem))
+            connection.commit()
+            bobina_id = cursor.lastrowid
+        connection.close()
+        return cls(bobina_id, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem)
 
-    @endereco.setter
-    def endereco(self, endereco: str):
-        self.__endereco = endereco
+    @classmethod
+    def get(cls, id_lote):
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM bobina WHERE id_lote = %s"
+            cursor.execute(sql, (id_lote,))
+            result = cursor.fetchone()
+        connection.close()
+        if result:
+            return cls(**result)
+        return None
 
-    @property
-    def codigo(self):
-        return self.__codigo
+    @classmethod
+    def get_all(cls):
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM bobina"
+            cursor.execute(sql)
+            results = cursor.fetchall()
+        connection.close()
+        return [cls(**result) for result in results]
+    
+    @classmethod
+    def delete(cls, id_lote):
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sql = "DELETE FROM bobina WHERE id_lote = %s"
+            cursor.execute(sql, (id_lote,))
+            connection.commit()
+        connection.close()
 
-    @property
-    def descricao(self):
-        return self.__descricao
-
-    @descricao.setter
-    def descricao(self, descricao: str):
-        self.__descricao = descricao
-
-    @property
-    def lote(self):
-        return self.__lote
-
-    @property
-    def metragem(self):
-        return self.__metragem
-
-    @metragem.setter
-    def metragem(self, metragem: float):
-        self.__metragem = metragem
-
-    @property
-    def data_entrada(self):
-        return self.__data_entrada
+    @classmethod
+    def update_endereco(cls, id_lote, novo_endereco):
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sql = "UPDATE bobina SET endereco_id_endereco = %s WHERE id_lote = %s"
+            cursor.execute(sql, (novo_endereco, id_lote))
+            connection.commit()
+        connection.close()

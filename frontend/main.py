@@ -21,8 +21,9 @@ def historic(page: ft.Page):
 def main(page: ft.Page):
     page.title = "Controle de Bobinas"
     
-    page.window_width = 400
-    page.window_height = 400
+    page.window.maximized=True
+    # page.window.width = 400
+    # page.window.height = 400
     
     def navigate_to_home(e):
         page.controls.clear()

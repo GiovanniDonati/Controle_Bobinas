@@ -1,6 +1,10 @@
 *Controle de Bobinas*
 - Projeto criado para poder aprofundar e aprimorar os conhecimentos gerais em programação, assim, pesquisando cada item e sanando cada dúvida pertinente em um projeto maior, fugindo das estruturas básicas.
 
+*Instalação*
+* Execute o arquivo init.py em backend/app/database
+Com isso, vai ser criado o banco de dados na sua máquina.
+
 **TO DO**
 
 Classes/Atributos/Métodos:

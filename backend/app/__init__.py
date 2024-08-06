@@ -1,1 +1,1 @@
-from .models import Bobina, Estoque, Historico, Movimentacao
+from .models import Bobina, Estoque, Historico, Cortina

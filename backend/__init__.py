@@ -1,1 +1,1 @@
-from .app import Bobina, Estoque, Historico, Movimentacao
+from .app import Bobina, Estoque, Historico, Cortina
