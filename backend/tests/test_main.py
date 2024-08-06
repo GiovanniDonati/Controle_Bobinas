@@ -59,14 +59,23 @@ def visualizar_historico():
         for mov in historico:
             print(f"{mov.tipo_mov} em {mov.date_mov} de {mov.endereco_antigo}")
 
+def vizualizar_bobinas():
+    bobinas = estoque.obter_bobinas()
+    if not bobinas:
+        print("Não há bobinas cadastradas")
+    else:
+        for bobina in bobinas:
+            print(f"{bobina.endereco_id_endereco} | {bobina.codigo} | {bobina.descricao} | {bobina.metragem} | {bobina.id_lote} | {bobina.data_cadastro}")
+    
 def main():
     while True:
-        print("\n1. Criar Bobina")
+        print("\n1. Adicionar Bobina")
         print("2. Remover Bobina")
         print("3. Mover Bobina")
         print("4. Mover Bobina para Produção")
         print("5. Visualizar Histórico de Bobina")
-        print("6. Sair")
+        print("6. Vizualizar Estoque de Bobinas")
+        print("7. Sair")
 
         opcao = input("Escolha uma opção: ")
 
@@ -81,6 +90,8 @@ def main():
         elif opcao == '5':
             visualizar_historico()
         elif opcao == '6':
+            vizualizar_bobinas()
+        elif opcao == '7':
             break
         else:
             print("Opção inválida. Tente novamente.")

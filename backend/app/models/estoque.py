@@ -10,33 +10,64 @@ class Estoque:
 
     def __gerar_enderecos_validos(self):
         enderecos = []
+        tipo_endereco = []
 
         for letra in 'ABCD':
             for number in range(1, 96):
                 enderecos.append(f'{letra}{number}')
+                tipo_endereco.append('Prateleira')
 
         for number in range(17, 96):
             enderecos.append(f'E{number}')
+            tipo_endereco.append('Prateleira')
+
 
         for number in range(47, 96):
             enderecos.append(f'F{number}')
+            tipo_endereco.append('Prateleira')
 
         for number in range(82, 96):
             enderecos.append(f'G{number}')
+            tipo_endereco.append('Prateleira')
 
         for letra in 'ABCDE':
             for number in range(1, 5):
                 enderecos.append(f'G1-{letra}{number}')
+                tipo_endereco.append('Grupos')
 
         for letra in 'ABCD':
             for number in range(1, 6):
                 enderecos.append(f'G2-{letra}{number}')
+                tipo_endereco.append('Grupos')
 
         for letra in 'AB':
             for number in range(1, 12):
                 enderecos.append(f'G3-{letra}{number}')
-
-        return enderecos
+                tipo_endereco.append('Grupos')
+                
+        for letra in 'AB':
+            for number in range(1, 7):
+                enderecos.append(f'R-{letra}{number}')
+                tipo_endereco.append('Grupos')
+        
+        for letra in 'AB':
+            for number in range(1, 4):
+                enderecos.append(f'N-{letra}{number}')
+                tipo_endereco.append('Grupos')
+        
+        def inserir_enderecos():
+            try:
+                connection = get_connection()
+                for endereco, tipo in zip(enderecos, tipo_endereco):
+                    with connection.cursor() as cursor:
+                        sql = "INSERT INTO endereco (id_endereco, tipo_endereco) VALUES (%s, %s)"
+                        cursor.execute(sql, (endereco, tipo)) 
+                connection.commit()
+                connection.close()
+            except ValueError as e:
+                print(e)
+            
+        return enderecos, tipo_endereco
 
     def __endereco_ocupado(self, endereco):
         connection = get_connection()
@@ -51,7 +82,7 @@ class Estoque:
         connection = get_connection()
         with connection.cursor() as cursor:
             sql = "SELECT COUNT(*) AS count FROM bobina WHERE id_lote = %s"
-            cursor.execute(sql, (lote,))
+            cursor.execute(sql, (lote))
             result = cursor.fetchone()
         connection.close()
         return result['count'] > 0
@@ -79,6 +110,7 @@ class Estoque:
             bobina.endereco_id_endereco,
             datetime.now().strftime("%Y-%m-%d"),
             'Cadastro',
+            'bobina Nova',
             bobina.metragem
         )
 
@@ -91,7 +123,8 @@ class Estoque:
                 bobina.endereco_id_endereco,
                 datetime.now().strftime("%Y-%m-%d"),
                 'Baixa',
-                bobina.metragem
+                bobina.metragem,
+                "Baixa da bobina"
                 )
             bobina.delete(lote)
         else:
@@ -110,6 +143,7 @@ class Estoque:
                 bobina.endereco_id_endereco,
                 datetime.now().strftime("%Y-%m-%d"),
                 'Movimentação de estoque',
+                bobina.metragem,
                 bobina.metragem
             )
             Bobina.update_endereco(bobina.id_lote, novo_endereco)
@@ -125,6 +159,7 @@ class Estoque:
                 bobina.endereco_id_endereco,
                 datetime.now().strftime("%Y-%m-%d"),
                 'Produção',
+                bobina.metragem,
                 bobina.metragem
             )
             Bobina.update_endereco(bobina.id_lote, 'Produção')
@@ -139,3 +174,6 @@ class Estoque:
         if bobina:
             return Historico.get_by_bobina(bobina.id_lote)
         return []
+
+    def obter_bobinas(self):
+        return Bobina.get_all()

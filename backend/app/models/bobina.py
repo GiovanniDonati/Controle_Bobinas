@@ -36,6 +36,16 @@ class Bobina:
         return None
 
     @classmethod
+    def get_all(cls):
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM bobina"
+            cursor.execute(sql)
+            results = cursor.fetchall()
+        connection.close()
+        return [cls(**result) for result in results]
+    
+    @classmethod
     def delete(cls, id_lote):
         connection = get_connection()
         with connection.cursor() as cursor:
