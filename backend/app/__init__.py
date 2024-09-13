@@ -1,1 +1,0 @@
-from .models import Bobina, Estoque, Historico, Cortina
