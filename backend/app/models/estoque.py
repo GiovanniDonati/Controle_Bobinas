@@ -177,3 +177,16 @@ class Estoque:
 
     def obter_bobinas(self):
         return Bobina.get_all()
+    
+    def sugerir_endereço():
+        # procura nos endereços, qual o primeiro que está vazio, em ordem crescente
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sql = "SELECT id_endereco FROM endereco WHERE id_endereco NOT IN (SELECT endereco_id_endereco FROM bobina)"
+            cursor.execute(sql)
+            result = cursor.fetchone()
+        connection.close()
+        if result:
+            return result['id_endereco']
+        else:
+            return None

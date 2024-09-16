@@ -1,1 +1,0 @@
-from .app import Bobina, Estoque, Historico, Cortina
