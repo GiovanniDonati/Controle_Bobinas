@@ -1,9 +1,12 @@
 # pages/bobina_create.py
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
 import flet as ft
 import requests
 
-# Importe BACKEND_URL do arquivo principal (main.py)
-from frontend.pages.main import BACKEND_URL 
+from frontend.pages.config import BACKEND_URL
 
 def page_bobina_creator(page: ft.Page):
     page.title = "Criar Bobina"

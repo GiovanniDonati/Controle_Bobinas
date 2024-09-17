@@ -3,7 +3,7 @@ import flet as ft
 import requests
 
 # Importe BACKEND_URL do arquivo principal (main.py)
-from main import BACKEND_URL 
+from frontend.pages.config import BACKEND_URL 
 
 def page_bobina_historico(page: ft.Page):
     page.title = "Visualizar Histórico"

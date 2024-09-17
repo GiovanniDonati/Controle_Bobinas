@@ -18,7 +18,7 @@ class BobinaCreate(BaseModel):
     metragem: float
     data_entrada: datetime
 
-@app.post("/bobinas/")
+@app.post("/bobina/")
 def criar_bobina(bobina: BobinaCreate):
     try:
         nova_bobina = Bobina(
@@ -34,7 +34,7 @@ def criar_bobina(bobina: BobinaCreate):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.delete("/bobinas/{codigo}")
+@app.delete("/bobina/{codigo}")
 def deletar_bobina(codigo: str):
     try:
         estoque.remover_bobina(codigo)
@@ -42,7 +42,7 @@ def deletar_bobina(codigo: str):
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-@app.put("/bobinas/{codigo}/mover")
+@app.put("/bobina/{codigo}/mover")
 def mover_bobina(codigo: str, novo_endereco: str):
     try:
         estoque.mover_bobina(codigo, novo_endereco)
@@ -50,7 +50,7 @@ def mover_bobina(codigo: str, novo_endereco: str):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.put("/bobinas/{codigo}/produzir")
+@app.put("/bobina/{codigo}/produzir")
 def mover_para_producao(codigo: str):
     try:
         estoque.mover_para_producao(codigo)
@@ -58,7 +58,7 @@ def mover_para_producao(codigo: str):
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-@app.get("/bobinas/{codigo}/historico")
+@app.get("/bobina/{codigo}/historico")
 def obter_historico(codigo: str):
     historico = estoque.obter_historico(codigo)
     if not historico:

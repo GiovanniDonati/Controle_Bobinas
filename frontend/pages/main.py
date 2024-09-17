@@ -3,15 +3,13 @@ import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 import flet as ft
-from pages.bobina_create import page_bobina_creator
-from pages.bobina_remove import page_bobina_remover
-from pages.bobina_move import page_bobina_mover
-from pages.bobina_move_production import page_bobina_mover_producao
-from pages.bobina_history import page_bobina_historico
-from pages.bobina_stock import page_bobina_estoque
-
-# Substitua 'http://seu_backend:8000' pela URL real do seu backend
-BACKEND_URL = 'http://localhost:5000'  # geralmente Flask usa a porta 5000 por padrão
+from frontend.pages.bobina_create import page_bobina_creator
+from frontend.pages.bobina_remove import page_bobina_remover
+from frontend.pages.bobina_move import page_bobina_mover
+from frontend.pages.bobina_move_production import page_bobina_mover_producao
+from frontend.pages.bobina_history import page_bobina_historico
+from frontend.pages.bobina_stock import page_bobina_estoque
+from frontend.pages.config import BACKEND_URL
 
 def page_home(page: ft.Page):
     page.title = "Controle de Bobinas"
@@ -86,4 +84,4 @@ def main(page: ft.Page):
     )
     page.go(page.route)
 
-ft.app(target=main, view=ft.WEB_BROWSER)
+ft.app(target=main)

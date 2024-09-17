@@ -5,8 +5,6 @@
 * Execute o arquivo init.py em backend/app/database
 Com isso, vai ser criado o banco de dados na sua máquina.
 
-**TO DO**
-
 Classes/Atributos/Métodos:
 * Bobina:
     * Endereço
@@ -55,8 +53,3 @@ Necessidades:
 * 6 - Histórico de Bobinas
 * 7 - Editar informações
 * 7 - Users
-
-Info:
-- 1 - Criar API para integrar com o Front-End, que vai ser em outra linguagem
-- 2 - Criar toda a lógica em POO
-- 3 - Usar a arquitetura MVC
