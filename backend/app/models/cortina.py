@@ -6,7 +6,7 @@ class Cortina:
         self.descricao = descricao
 
     @classmethod
-    def get(cls, id_codigo):
+    def obter_cortina(cls, id_codigo):
         connection = get_connection()
         with connection.cursor() as cursor:
             sql = "SELECT * FROM cortina WHERE id_codigo = %s"
@@ -16,9 +16,9 @@ class Cortina:
         if result:
             return cls(**result)
         return None
-
+    
     @classmethod
-    def get_all(cls):
+    def  todas_cortinas(cls):
         connection = get_connection()
         with connection.cursor() as cursor:
             sql = "SELECT * FROM cortina"

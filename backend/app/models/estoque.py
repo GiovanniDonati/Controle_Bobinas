@@ -6,69 +6,9 @@ from ..database.config import get_connection
 
 class Estoque:
     def __init__(self):
-        self.__enderecos_validos = self.__gerar_enderecos_validos()
-
-    def __gerar_enderecos_validos(self):
-        enderecos = []
-        tipo_endereco = []
-
-        for letra in 'ABCD':
-            for number in range(1, 96):
-                enderecos.append(f'{letra}{number}')
-                tipo_endereco.append('Prateleira')
-
-        for number in range(17, 96):
-            enderecos.append(f'E{number}')
-            tipo_endereco.append('Prateleira')
-
-
-        for number in range(47, 96):
-            enderecos.append(f'F{number}')
-            tipo_endereco.append('Prateleira')
-
-        for number in range(82, 96):
-            enderecos.append(f'G{number}')
-            tipo_endereco.append('Prateleira')
-
-        for letra in 'ABCDE':
-            for number in range(1, 5):
-                enderecos.append(f'G1-{letra}{number}')
-                tipo_endereco.append('Grupos')
-
-        for letra in 'ABCD':
-            for number in range(1, 6):
-                enderecos.append(f'G2-{letra}{number}')
-                tipo_endereco.append('Grupos')
-
-        for letra in 'AB':
-            for number in range(1, 12):
-                enderecos.append(f'G3-{letra}{number}')
-                tipo_endereco.append('Grupos')
-                
-        for letra in 'AB':
-            for number in range(1, 7):
-                enderecos.append(f'R-{letra}{number}')
-                tipo_endereco.append('Grupos')
-        
-        for letra in 'AB':
-            for number in range(1, 4):
-                enderecos.append(f'N-{letra}{number}')
-                tipo_endereco.append('Grupos')
-        
-        def inserir_enderecos():
-            try:
-                connection = get_connection()
-                for endereco, tipo in zip(enderecos, tipo_endereco):
-                    with connection.cursor() as cursor:
-                        sql = "INSERT INTO endereco (id_endereco, tipo_endereco) VALUES (%s, %s)"
-                        cursor.execute(sql, (endereco, tipo)) 
-                connection.commit()
-                connection.close()
-            except ValueError as e:
-                print(e)
-            
-        return enderecos, tipo_endereco
-
+        pass
+        # self.__enderecos_validos = self.__gerar_enderecos_validos()
+    
     def __endereco_ocupado(self, endereco):
         connection = get_connection()
         with connection.cursor() as cursor:
@@ -88,7 +28,13 @@ class Estoque:
         return result['count'] > 0
 
     def __endereco_valido(self, endereco):
-        return endereco in self.__enderecos_validos
+        connection = get_connection()
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM endereco WHERE id_endereco = %s"
+            cursor.execute(sql, (endereco,))
+            endereco = cursor.fetchone()
+        connection.close()
+        return endereco
 
     def adicionar_bobina(self, bobina: Bobina, user_id):
         if not self.__endereco_valido(bobina.endereco_id_endereco):
@@ -98,30 +44,28 @@ class Estoque:
         if self.__lote_existente(bobina.id_lote):
             raise ValueError(f"Lote {bobina.id_lote} já existe.")
         bobina = Bobina.create(
-            bobina.id_lote,
-            bobina.cortina_id_codigo,
             bobina.endereco_id_endereco,
-            bobina.data_cadastro,
-            bobina.metragem
+            bobina.cortina_id_codigo,
+            bobina.id_lote,
+            bobina.metragem,
+            bobina.data_cadastro
         )
-        Historico.create(
+        Historico.adicionar_historico(
             bobina.id_lote,
             user_id,
             bobina.endereco_id_endereco,
-            datetime.now().strftime("%Y-%m-%d"),
             'Cadastro',
             'bobina Nova',
             bobina.metragem
         )
 
     def remover_bobina(self, lote, user_id):
-        bobina = Bobina.get(lote)
+        bobina = Bobina.buscar_bobina(lote)
         if bobina:
             Historico.create(
                 bobina.id_lote,
                 user_id,
                 bobina.endereco_id_endereco,
-                datetime.now().strftime("%Y-%m-%d"),
                 'Baixa',
                 bobina.metragem,
                 "Baixa da bobina"
@@ -135,7 +79,7 @@ class Estoque:
             raise ValueError(f"Endereço {novo_endereco} não é válido.")
         if self.__endereco_ocupado(novo_endereco):
             raise ValueError(f"Endereço {novo_endereco} já está ocupado por outra bobina.")
-        bobina = Bobina.get(lote)
+        bobina = Bobina.buscar_bobina(lote)
         if bobina:
             Historico.create(
                 bobina.id_lote,
@@ -151,7 +95,7 @@ class Estoque:
             raise ValueError(f"Bobina com lote {lote} não encontrada.")
 
     def mover_para_producao(self, lote, user_id):
-        bobina = Bobina.get(lote)
+        bobina = Bobina.buscar_bobina(lote)
         if bobina:
             Historico.create(
                 bobina.id_lote,
@@ -167,16 +111,16 @@ class Estoque:
             raise ValueError(f"Bobina com código {lote} não encontrada.")
 
     def buscar_bobina(self, lote):
-        return Bobina.get(lote)
+        return Bobina.buscar_bobina(lote)
 
     def obter_historico(self, lote):
-        bobina = Bobina.get(lote)
+        bobina = Bobina.buscar_bobina(lote)
         if bobina:
             return Historico.get_by_bobina(bobina.id_lote)
         return []
 
     def obter_bobinas(self):
-        return Bobina.get_all()
+        return Bobina.buscar_todas_bobinas()
     
     def sugerir_endereço():
         # procura nos endereços, qual o primeiro que está vazio, em ordem crescente

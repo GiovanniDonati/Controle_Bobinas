@@ -13,7 +13,7 @@ class Bobina:
         self.metragem = metragem
 
     @classmethod
-    def create(cls, id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
+    def criar_bobina(cls, id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
         connection = get_connection()
         with connection.cursor() as cursor:
             sql = "INSERT INTO bobina (id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem) VALUES (%s, %s, %s, %s, %s)"
@@ -24,7 +24,7 @@ class Bobina:
         return cls(bobina_id, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem)
 
     @classmethod
-    def get(cls, id_lote):
+    def buscar_bobina(cls, id_lote):
         connection = get_connection()
         with connection.cursor() as cursor:
             sql = "SELECT * FROM bobina WHERE id_lote = %s"
@@ -36,7 +36,7 @@ class Bobina:
         return None
 
     @classmethod
-    def get_all(cls):
+    def buscar_todas_bobinas(cls):
         connection = get_connection()
         with connection.cursor() as cursor:
             sql = "SELECT * FROM bobina"
@@ -46,7 +46,7 @@ class Bobina:
         return [cls(**result) for result in results]
     
     @classmethod
-    def delete(cls, id_lote):
+    def deletar_bobinas(cls, id_lote):
         connection = get_connection()
         with connection.cursor() as cursor:
             sql = "DELETE FROM bobina WHERE id_lote = %s"
@@ -55,7 +55,7 @@ class Bobina:
         connection.close()
 
     @classmethod
-    def update_endereco(cls, id_lote, novo_endereco):
+    def atualizar_endereco(cls, id_lote, novo_endereco):
         connection = get_connection()
         with connection.cursor() as cursor:
             sql = "UPDATE bobina SET endereco_id_endereco = %s WHERE id_lote = %s"

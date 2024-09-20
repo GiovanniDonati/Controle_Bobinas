@@ -2,7 +2,7 @@
 
 ## Fase 1: Planejamento e Definições Iniciais
 - [x] **Definir os requisitos do projeto**
-  - [x] Listar as funcionalidades principais (ex.: cadastro de vagas, monitoramento, reservas).
+  - [x] Listar as funcionalidades principais (ex.: cadastro de bobinas, movimentações de produção...).
   -  [x] Escolher a arquitetura do projeto (ex.: REST API para comunicação entre backend e frontend).
 - [x] **Escolher tecnologias e ferramentas**
   - [x] Banco de dados MySQL.
@@ -12,19 +12,19 @@
 ## Fase 2: Configuração do Ambiente
 - [x] **Configurar o repositório do projeto**
   - [x] Criar repositório Git.
-  - [x] Definir e criar branch principal (ex.: `main` ou `master`).
+  - [x] Definir e criar branch principal (`main`).
 - [ ] **Configurar o ambiente de desenvolvimento**
+  - [x] Configurar ambientes virtuais (virtualenv) para gerenciar dependências do Python.
   - [ ] Instalar dependências do frontend (React, Node.js, etc.).
-  - [ ] Instalar dependências do backend (Python, Flask/Django, etc.).
-  - [ ] Configurar ambientes virtuais (virtualenv, pipenv) para gerenciar dependências do Python.
+  - [x] Instalar dependências do backend (Python, FastAPI, etc.).
 
 ## Fase 3: Backend - API e Banco de Dados
-- [ ] **Definir e modelar o banco de dados**
-  - [ ] Modelar as entidades principais (ex.: Vagas, Veículos, Usuários).
-  - [ ] Criar o esquema de banco de dados.
-- [ ] **Configurar o servidor backend**
-  - [ ] Configurar o servidor Flask ou Django.
-  - [ ] Criar rotas para as principais operações CRUD (ex.: adicionar vaga, atualizar status, listar vagas).
+- [x] **Definir e modelar o banco de dados**
+  - [x] Modelar as entidades principais (ex.: Vagas, Veículos, Usuários).
+  - [x] Criar o esquema de banco de dados.
+- [x] **Configurar o servidor backend**
+  - [x] Configurar o servidor, Uvicorn
+  - [x] Criar rotas para as principais operações CRUD (ex.: adicionar vaga, atualizar status, listar vagas).
 - [ ] **Implementar autenticação e autorização**
   - [ ] Implementar login, logout e proteção de rotas (JWT, OAuth, etc.).
 - [ ] **Testar rotas da API com Postman ou Insomnia**
