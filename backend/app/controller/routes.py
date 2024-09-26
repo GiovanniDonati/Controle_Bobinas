@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
-from backend.app.API.schemas.schemas import BobinaCreate
+from backend.app.controller.schemas import BobinaCreate
 from backend.app.models.bobina import Bobina
 
 app = FastAPI(
@@ -18,3 +18,5 @@ app = FastAPI(
           name="Cadastrar de Bobinas",
           tags=["Bobina"]
           )
+def teste(bobina: BobinaCreate):
+    pass

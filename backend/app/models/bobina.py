@@ -1,64 +1,53 @@
-from datetime import datetime
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
-from ..database.config import get_connection
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
+from sqlalchemy.orm import Session
 
-class Bobina:
+from app.database.config import Base
+
+class Bobina(Base):
+    __tablename__ = 'bobina'
+    
+    id_lote = Column(Integer, primary_key=True)
+    cortina_id_codigo = Column(Integer, ForeignKey('cortina.id_codigo'))
+    endereco_id_endereco = Column(Integer, ForeignKey('endereco.id_endereco'))
+    data_cadastro = Column(DateTime)
+    metragem = Column(Float)
+    
     def __init__(self, id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
         self.id_lote = id_lote
         self.cortina_id_codigo = cortina_id_codigo
         self.endereco_id_endereco = endereco_id_endereco
         self.data_cadastro = data_cadastro
         self.metragem = metragem
-
-    @classmethod
-    def criar_bobina(cls, id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
-        connection = get_connection()
-        with connection.cursor() as cursor:
-            sql = "INSERT INTO bobina (id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem) VALUES (%s, %s, %s, %s, %s)"
-            cursor.execute(sql, (id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem))
-            connection.commit()
-            bobina_id = cursor.lastrowid
-        connection.close()
-        return cls(bobina_id, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem)
-
-    @classmethod
-    def buscar_bobina(cls, id_lote):
-        connection = get_connection()
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM bobina WHERE id_lote = %s"
-            cursor.execute(sql, (id_lote,))
-            result = cursor.fetchone()
-        connection.close()
-        if result:
-            return cls(**result)
-        return None
-
-    @classmethod
-    def buscar_todas_bobinas(cls):
-        connection = get_connection()
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM bobina"
-            cursor.execute(sql)
-            results = cursor.fetchall()
-        connection.close()
-        return [cls(**result) for result in results]
-    
-    @classmethod
-    def deletar_bobinas(cls, id_lote):
-        connection = get_connection()
-        with connection.cursor() as cursor:
-            sql = "DELETE FROM bobina WHERE id_lote = %s"
-            cursor.execute(sql, (id_lote,))
-            connection.commit()
-        connection.close()
-
-    @classmethod
-    def atualizar_endereco(cls, id_lote, novo_endereco):
-        connection = get_connection()
-        with connection.cursor() as cursor:
-            sql = "UPDATE bobina SET endereco_id_endereco = %s WHERE id_lote = %s"
-            cursor.execute(sql, (novo_endereco, id_lote))
-            connection.commit()
-        connection.close()
+        
+    def create_bobina(db: Session, id_lote, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
+        new_bobina = Bobina(id_lote=id_lote, cortina_id_codigo=cortina_id_codigo, endereco_id_endereco=endereco_id_endereco, data_cadastro=data_cadastro, metragem=metragem)
+        db.add(new_bobina)
+        db.commit()
+        db.refresh(new_bobina)
+        return new_bobina
+        
+    def buscar_lote(db: Session, id_lote):
+        return db.query(Bobina).filter(Bobina.id_lote == id_lote).first()
+        
+    def buscar_todas(db: Session):
+        return db.query(Bobina).all()
+        
+    def atualizar_bobina(db: Session, id_lote, data):
+        bobina = db.query(Bobina).filter(Bobina.id_lote == id_lote).first()
+        if bobina:
+            for key, value in data.items():
+                setattr(bobina, key, value)
+            db.commit()
+            db.refresh(bobina)
+            return bobina
+        else:
+            return None
+        
+    def deletar_bobina(db: Session, id_lote):
+        bobina = db.query(Bobina).filter(Bobina.id_lote == id_lote).first()
+        if bobina:
+            db.delete(bobina)
+            db.commit()
+            return True
+        else:
+            return False

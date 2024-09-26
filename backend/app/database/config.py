@@ -1,20 +1,18 @@
-import pymysql
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, declarative_base
 
-DATABASE = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'Libertyme_007',
-    'db': 'app_cortinas',
-    'charset': 'utf8mb4',
-    'cursorclass': pymysql.cursors.DictCursor
-}
+SQLALCHEMY_DB_URL = "mysql://root:Libertyme_007@localhost/app_cortinas"
 
-def get_connection():
-    return pymysql.connect(
-        host=DATABASE['host'],
-        user=DATABASE['user'],
-        password=DATABASE['password'],
-        db=DATABASE['db'],
-        charset=DATABASE['charset'],
-        cursorclass=DATABASE['cursorclass']
-    )
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=SQLALCHEMY_DB_URL)
+db = create_engine(SQLALCHEMY_DB_URL)
+
+Session = sessionmaker(bind=db)
+session = Session()
+Base = declarative_base()
+
+def conn_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
