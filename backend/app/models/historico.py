@@ -1,34 +1,25 @@
-from datetime import datetime
-from ..database.config import get_connection
+from sqlalchemy import Column, Integer, String, Float, DateTime, ForeignKey
 
-class Historico:
-    def __init__(self, id_historico, bobina_id_lote, user_id_user, endereco_antigo, date_mov, tipo_mov, metragem_antiga, nova_metragem):
+from app.database.config import Base
+
+class Historico(Base):
+    __tablename__ = 'historico'
+    
+    id_historico = Column(Integer, primary_key=True)
+    bobina_id_lote = Column(Integer)
+    endereco_antigo = Column(String)
+    endereco_novo = Column(String)
+    data_cadastro = Column(DateTime)
+    data_mov = Column(DateTime)
+    tipo_mov = Column(String)
+    metragem_antiga = Column(Float)
+    metragem_nova = Column(Float)
+    user_id_user = Column(Integer)
+    
+    def __init__(self, id_historico, cortina_id_codigo, endereco_id_endereco, data_cadastro, metragem):
         self.id_historico = id_historico
-        self.bobina_id_lote = bobina_id_lote
-        self.user_id_user = user_id_user
-        self.endereco_antigo = endereco_antigo
-        self.date_mov = date_mov
-        self.tipo_mov = tipo_mov
-        self.metragem_antiga = metragem_antiga
-        self.nova_metragem = nova_metragem
-
-    @classmethod
-    def create(cls, bobina_id_lote, user_id_user, endereco_antigo, date_mov, tipo_mov, metragem_antiga, nova_metragem):
-        connection = get_connection()
-        with connection.cursor() as cursor:
-            sql = "INSERT INTO historico (bobina_id_lote, user_id_user, endereco_antigo, date_mov, tipo_mov, metragem_antiga, nova_metragem) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            cursor.execute(sql, (bobina_id_lote, user_id_user, endereco_antigo, date_mov, tipo_mov, metragem_antiga, nova_metragem))
-            connection.commit()
-            historico_id = cursor.lastrowid
-        connection.close()
-        return cls(historico_id, bobina_id_lote, user_id_user, endereco_antigo, date_mov, tipo_mov, metragem_antiga, nova_metragem)
-
-    @classmethod
-    def get_by_bobina(cls, bobina_id_lote):
-        connection = get_connection()
-        with connection.cursor() as cursor:
-            sql = "SELECT * FROM historico WHERE bobina_id_lote = %s"
-            cursor.execute(sql, (bobina_id_lote,))
-            results = cursor.fetchall()
-        connection.close()
-        return [cls(**result) for result in results]
+        self.bobina_id_lote = cortina_id_codigo
+        self.endereco_antigo = endereco_id_endereco
+        self.endereco_novo = endereco_id_endereco
+        self.data_cadastro = data_cadastro
+        self.metragem = metragem

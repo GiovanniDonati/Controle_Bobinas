@@ -1,30 +1,37 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from .models.bobina import Bobina
-from .models.estoque import Estoque
-from .models.cortina import Cortina
-from .models.historico import Historico
+from backend.app.models.bobina import Bobina
+from backend.app.models.estoque import Estoque
+from backend.app.models.cortina import Cortina
+from backend.app.models.historico import Historico
 from datetime import datetime
 
-app = FastAPI()
+app = FastAPI(
+    title="App_Cortinas",
+    summary="API para controle de bobinas.",
+    version="1.0",
+)
 
 estoque = Estoque()
 
 class BobinaCreate(BaseModel):
     endereco: str
     codigo: str
-    descricao: str
     lote: str
     metragem: float
-    data_entrada: datetime
-
-@app.post("/bobinas/")
+    data_entrada: datetime = datetime.now().strftime("%Y-%m-%d")
+    
+@app.post(
+          path="/bobina/",
+          description="Cadastro de Bobinas",
+          name="Cadastrar de Bobinas",
+          tags=["Bobina"]
+          )
 def criar_bobina(bobina: BobinaCreate):
     try:
         nova_bobina = Bobina(
             endereco=bobina.endereco,
             codigo=bobina.codigo,
-            descricao=bobina.descricao,
             lote=bobina.lote,
             metragem=bobina.metragem,
             data_entrada=bobina.data_entrada
@@ -33,8 +40,19 @@ def criar_bobina(bobina: BobinaCreate):
         return {"message": "Bobina criada com sucesso"}
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+    
+@app.get(
+        path="/bobina/lote/{lote}",
+        name="Buscar Bobina",
+        description="Buscar Bobina por Lote"
+        )
+def buscar_bobina(lote: str):
+    bobina = Bobina.buscar_bobina(lote)
+    if not bobina:
+        raise HTTPException(status_code=404, detail="Bobina não encontrada")
+    return bobina.__dict__
 
-@app.delete("/bobinas/{codigo}")
+@app.delete("/bobina/codigo/f{codigo}")
 def deletar_bobina(codigo: str):
     try:
         estoque.remover_bobina(codigo)
@@ -42,7 +60,7 @@ def deletar_bobina(codigo: str):
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-@app.put("/bobinas/{codigo}/mover")
+@app.put("/bobina/{codigo}/mover")
 def mover_bobina(codigo: str, novo_endereco: str):
     try:
         estoque.mover_bobina(codigo, novo_endereco)
@@ -50,7 +68,7 @@ def mover_bobina(codigo: str, novo_endereco: str):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@app.put("/bobinas/{codigo}/produzir")
+@app.put("/bobina/{codigo}/produzir")
 def mover_para_producao(codigo: str):
     try:
         estoque.mover_para_producao(codigo)
@@ -58,7 +76,7 @@ def mover_para_producao(codigo: str):
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
 
-@app.get("/bobinas/{codigo}/historico")
+@app.get("/bobina/{codigo}/historico")
 def obter_historico(codigo: str):
     historico = estoque.obter_historico(codigo)
     if not historico:
