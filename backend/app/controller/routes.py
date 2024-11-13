@@ -1,7 +1,4 @@
 from fastapi import FastAPI, HTTPException
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 
 from backend.app.controller.schemas import BobinaCreate
 from backend.app.models.bobina import Bobina
@@ -18,5 +15,5 @@ app = FastAPI(
           name="Cadastrar de Bobinas",
           tags=["Bobina"]
           )
-def teste(bobina: BobinaCreate):
+def criar_bobina(bobina: BobinaCreate):
     pass

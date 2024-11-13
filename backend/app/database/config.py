@@ -1,18 +1,12 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
+from fastapi import FastAPI
+import uvicorn
 
-SQLALCHEMY_DB_URL = "mysql://root:Libertyme_007@localhost/app_cortinas"
+app = FastAPI(
+    title='Controle de Bobinas'
+)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=SQLALCHEMY_DB_URL)
-db = create_engine(SQLALCHEMY_DB_URL)
-
-Session = sessionmaker(bind=db)
-session = Session()
-Base = declarative_base()
-
-def conn_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+def __init__():
+    uvicorn.run('backend.app.main:app', port='8001', host='0.0.0.0', reload=True, log_level='info')
+    
+if __name__ == '__main__':
+    __init__()

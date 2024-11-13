@@ -69,3 +69,14 @@
 - [ ] **Configurar monitoramento e logs**
   - [ ] Implementar ferramentas de monitoramento de erros e logs (ex.: Sentry, LogRocket).
   - [ ] Monitorar o desempenho e o uso do sistema.
+
+# Funcionalidades do sistema
+
+- CRUD bobinas
+  - Vizualizar cortinas por código
+  - Procurar por lote específico
+- CRUD posições
+  - Mover para produção, e entre grupos.
+
+- Armazenar histórico
+- Acompanhar tempo de produção
