@@ -11,7 +11,7 @@ import ButtonAside from "./button/ButtonAside";
 
 function Aside({ tabOpen, setTabOpen }) {
   return (
-    <div className="flex flex-col items-center justify-start w-64 pt-4 space-y-4 bg-blue-300">
+    <div className="flex flex-col items-center justify-start pt-4 space-y-4 bg-blue-300 w-60">
       <ButtonAside
         bgColor={
           tabOpen === "dashboard" ? "bg-green-500" : "hover:bg-green-500"
@@ -59,6 +59,11 @@ function Aside({ tabOpen, setTabOpen }) {
       >
         <SquareKanban /> Est. Visual
       </ButtonAside>
+
+      <p className="fixed font-serif text-xs text-center text-white bottom-2">
+        Development by: <br />
+        <i>Giovanni R. Donati</i>
+      </p>
     </div>
   );
 }
