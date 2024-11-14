@@ -1,12 +1,14 @@
+import { useState } from "react";
 import Aside from "./components/Aside";
+import ControlPanel from "./pages/ControlPanelPage";
 
 function App() {
+  const [tabOpen, setTabOpen] = useState("");
+
   return (
     <div className="flex w-full h-screen">
-      <Aside />
-      <main className="w-full">
-        <h1></h1>
-      </main>
+      <Aside tabOpen={tabOpen} setTabOpen={setTabOpen} />
+      <ControlPanel></ControlPanel>
     </div>
   );
 }
