@@ -4,7 +4,6 @@ import {
   History,
   HomeIcon,
   Scissors,
-  SearchIcon,
   SquareKanban,
 } from "lucide-react";
 import ButtonAside from "./button/ButtonAside";
@@ -22,10 +21,10 @@ function Aside({ tabOpen, setTabOpen }) {
       </ButtonAside>
 
       <ButtonAside
-        bgColor={tabOpen === "search" ? "bg-blue-500" : "hover:bg-blue-500"}
-        onClick={() => setTabOpen("search")}
+        bgColor={tabOpen === "visual" ? "bg-yellow-500" : "hover:bg-yellow-500"}
+        onClick={() => setTabOpen("visual")}
       >
-        <SearchIcon /> Pesquisar
+        <SquareKanban /> Est. Visual
       </ButtonAside>
 
       <ButtonAside
@@ -51,13 +50,6 @@ function Aside({ tabOpen, setTabOpen }) {
         onClick={() => setTabOpen("history")}
       >
         <History /> Histórico
-      </ButtonAside>
-
-      <ButtonAside
-        bgColor={tabOpen === "visual" ? "bg-yellow-500" : "hover:bg-yellow-500"}
-        onClick={() => setTabOpen("visual")}
-      >
-        <SquareKanban /> Est. Visual
       </ButtonAside>
 
       <p className="fixed font-serif text-xs text-center text-white bottom-2">

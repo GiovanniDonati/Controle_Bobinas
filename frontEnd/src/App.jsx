@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Aside from "./components/Aside";
 import ControlPanelPage from "./pages/ControlPanelPage";
-import SearchPage from "./pages/SearchPage";
 import ProductionPage from "./pages/ProductionPage";
 import RetailPage from "./pages/RetailPage";
 import HistoricPage from "./pages/HistoricPage";
@@ -15,8 +14,6 @@ function App() {
       <Aside tabOpen={tabOpen} setTabOpen={setTabOpen} />
       {tabOpen === "dashboard" ? (
         <ControlPanelPage />
-      ) : tabOpen === "search" ? (
-        <SearchPage />
       ) : tabOpen === "production" ? (
         <ProductionPage />
       ) : tabOpen === "retalhos" ? (
