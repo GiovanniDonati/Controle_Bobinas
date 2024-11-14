@@ -3,12 +3,12 @@ import ModalInput from "./ModalInput";
 
 function SearchModal({ toggleModal }) {
   const buttonModal =
-    "w-[30%] text-lg font-semibold px-4 py-3 text-white rounded-full border-2";
+    "w-[30%] text-lg font-semibold px-4 py-3 text-white rounded-full";
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black/20">
-      <div className="flex flex-col justify-center w-4/12 max-w-xl p-8 space-y-2 bg-white rounded-lg shadow-">
-        <h2 className="mb-4 text-xl font-semibold">Pesquisar bobina</h2>
+    <div className="fixed inset-0 flex items-start justify-center pt-40 bg-black/20">
+      <div className="flex flex-col justify-center w-4/12 max-w-xl p-6 space-y-4 bg-white rounded-lg shadow-">
+        <h2 className="mb-2 text-2xl font-semibold">Pesquisar bobina</h2>
         <ModalInput placeholder="Endereço" />
         <ModalInput placeholder="Código" type="number" />
         <ModalInput placeholder="Lote" type="number" />

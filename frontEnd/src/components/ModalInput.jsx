@@ -5,9 +5,9 @@ function ModalInput({ placeholder, ...props }) {
       <input
         {...props}
         placeholder={placeholder}
-        className="px-2 text-xl placeholder-transparent uppercase bg-transparent border-none peer focus:border-transparent focus:outline-none focus:ring-0"
+        className="w-full px-2 text-xl placeholder-transparent uppercase border-none peer focus:border-transparent focus:outline-none focus:ring-0"
       />
-      <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm peer-focus:top-0 peer-focus:text-xs">
+      <span className="pointer-events-none absolute start-2.5 top-0 -translate-y-1/2 bg-white p-0.5 text-base text-gray-700 transition-all peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-base peer-focus:top-0 peer-focus:text-xs">
         {placeholder}
       </span>
     </label>
