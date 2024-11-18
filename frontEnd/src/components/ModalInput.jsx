@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 function ModalInput({ placeholder, ...props }) {
   return (
-    <label className="relative block py-3 text-base border border-gray-200 rounded-md shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
+    <label className="relative block w-full py-3 text-base border border-gray-200 rounded-md shadow-sm focus-within:border-blue-600 focus-within:ring-1 focus-within:ring-blue-600">
       <input
         {...props}
         placeholder={placeholder}

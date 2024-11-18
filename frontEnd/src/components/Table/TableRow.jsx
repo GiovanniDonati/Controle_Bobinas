@@ -6,7 +6,7 @@ function TableRow() {
       <Row>A-01-02</Row>
       <Row>31333</Row>
       <Row>CORTINA LAMINADA AZUL/PRATA 120G/M2 L=3,20 PROPEX</Row>
-      <Row>500</Row>
+      <Row>500 {"Mt"}</Row>
       <Row>12345678</Row>
       <Row>24/10/2024</Row>
       <td className="flex justify-center py-2 gap-x-1 whitespace-nowrap">
@@ -24,7 +24,7 @@ function Row({ ...props }) {
   return (
     <td
       {...props}
-      className="py-2 text-base text-center text-gray-700 whitespace-nowrap"
+      className="px-1 py-2 text-base text-center text-gray-700 border-x-2 whitespace-nowrap"
     />
   );
 }

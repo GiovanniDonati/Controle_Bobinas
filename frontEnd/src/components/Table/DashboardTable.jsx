@@ -15,7 +15,7 @@ function Table() {
             <TableIndex>Ações</TableIndex>
           </tr>
         </thead>
-        <tbody className="divide-y divide-gray-300">
+        <tbody>
           <TableRow />
           <TableRow />
           <TableRow />
@@ -47,7 +47,7 @@ function TableIndex({ ...props }) {
   return (
     <th
       {...props}
-      className="px-4 py-2 text-base font-medium text-gray-900 bg-green-100 whitespace-nowrap"
+      className="px-1 py-2 text-base font-medium text-gray-900 bg-green-100 whitespace-nowrap"
     />
   );
 }
