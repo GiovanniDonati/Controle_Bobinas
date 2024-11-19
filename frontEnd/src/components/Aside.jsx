@@ -6,6 +6,7 @@ import {
   MenuIcon,
   Scissors,
   SquareKanban,
+  UserCircle2,
 } from "lucide-react";
 import ButtonAside from "./button/ButtonAside";
 
@@ -15,70 +16,86 @@ function Aside({ tabOpen, setTabOpen, menuVisibility, setMenuVisibily }) {
     <div
       className={`flex flex-col items-center justify-start pt-4 space-y-4 bg-blue-300 ${
         desktop || menuVisibility
-          ? `w-[200px] ${menuVisibility && "absolute h-screen"}`
+          ? `w-[220px] ${menuVisibility && "absolute h-screen"}`
           : "w-[80px]"
       }`}
     >
-      {desktop || menuVisibility ? (
-        <div className="flex flex-col justify-between w-1/2 h-20 p-1 bg-white rounded-md shadow-lg">
+      {(desktop || menuVisibility) && (
+        <div className="flex flex-col items-center px-2 pt-1 bg-white rounded-md shadow-lg w-28 justify-">
+          <UserCircle2 />
           <button>Admin</button>
-          <button className="text-sm font-semibold text-end">Sair</button>
+          <button className="self-end text-sm">Sair</button>
         </div>
-      ) : (
-        <MenuIcon
-          className="items-center text-white"
-          onClick={() => setMenuVisibily(!menuVisibility)}
-        />
+      )}
+      {!desktop && (
+        <ButtonAside onClick={() => setMenuVisibily(!menuVisibility)}>
+          <MenuIcon />
+          {desktop || (menuVisibility && "Menu")}
+        </ButtonAside>
       )}
 
       <ButtonAside
         bgColor={
           tabOpen === "dashboard" ? "bg-green-500" : "hover:bg-green-500"
         }
-        onClick={() => setTabOpen("dashboard")}
+        onClick={() => {
+          setTabOpen("dashboard");
+          menuVisibility && setMenuVisibily(!menuVisibility);
+        }}
       >
         <HomeIcon />
-        {desktop || (menuVisibility && " Dashboard")}
+        {(desktop || menuVisibility) && " Dashboard"}
       </ButtonAside>
 
       <ButtonAside
         bgColor={tabOpen === "visual" ? "bg-yellow-500" : "hover:bg-yellow-500"}
-        onClick={() => setTabOpen("visual")}
+        onClick={() => {
+          setTabOpen("visual");
+          menuVisibility && setMenuVisibily(!menuVisibility);
+        }}
       >
         <SquareKanban />
-        {desktop || (menuVisibility && " Est. Visual")}
+        {(desktop || menuVisibility) && " Est. Visual"}
       </ButtonAside>
 
       <ButtonAside
         bgColor={
           tabOpen === "production" ? "bg-orange-500" : "hover:bg-orange-400"
         }
-        onClick={() => setTabOpen("production")}
+        onClick={() => {
+          setTabOpen("production");
+          menuVisibility && setMenuVisibily(!menuVisibility);
+        }}
       >
         <ClipboardPen />
-        {desktop && " Produção"}
+        {(desktop || menuVisibility) && " Produção"}
       </ButtonAside>
 
       <ButtonAside
         bgColor={tabOpen === "retalhos" ? "bg-red-500" : "hover:bg-red-500"}
-        onClick={() => setTabOpen("retalhos")}
+        onClick={() => {
+          setTabOpen("retalhos");
+          menuVisibility && setMenuVisibily(!menuVisibility);
+        }}
       >
         <Scissors />
-        {desktop && " Retalhos"}
+        {(desktop || menuVisibility) && " Retalhos"}
       </ButtonAside>
 
       <ButtonAside
         bgColor={
           tabOpen === "history" ? "bg-purple-500" : "hover:bg-purple-500"
         }
-        onClick={() => setTabOpen("history")}
+        onClick={() => {
+          setTabOpen("history");
+          menuVisibility && setMenuVisibily(!menuVisibility);
+        }}
       >
         <History />
-        {desktop && " Histórico"}
+        {(desktop || menuVisibility) && " Histórico"}
       </ButtonAside>
-
-      {desktop && (
-        <p className="fixed font-serif text-xs text-center text-white bottom-2">
+      {(desktop || menuVisibility) && (
+        <p className="absolute font-serif text-xs text-center text-white bottom-2">
           Development by: <br />
           <i>Giovanni R. Donati</i>
         </p>

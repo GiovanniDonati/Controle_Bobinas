@@ -47,7 +47,7 @@ function TableIndex({ ...props }) {
   return (
     <th
       {...props}
-      className="px-1 py-2 text-base font-medium text-gray-900 bg-green-100 whitespace-nowrap"
+      className="px-2 py-2 text-base font-medium text-gray-900 bg-green-100 border-green-200 max-xl:text-xs border-x-2 whitespace-nowrap"
     />
   );
 }

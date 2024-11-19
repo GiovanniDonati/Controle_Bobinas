@@ -24,7 +24,7 @@ function Row({ ...props }) {
   return (
     <td
       {...props}
-      className="px-1 py-2 text-base text-center text-gray-700 border-x-2 whitespace-nowrap"
+      className="px-1 py-2 text-base text-center text-gray-700 max-lg:text-sm border-x-2 whitespace-nowrap"
     />
   );
 }
