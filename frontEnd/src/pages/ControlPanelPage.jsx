@@ -4,6 +4,7 @@ import Table from "../components/Table/Table";
 import Title from "../components/Title";
 import SearchModal from "../components/Modal/SearchModal";
 import AddModal from "../components/Modal/AddModal";
+import ButtonTabs from "../components/button/ButtonTabs";
 
 function ControlPanelPage() {
   const [modalSearch, setModalSearch] = useState(false);
@@ -18,9 +19,6 @@ function ControlPanelPage() {
     setModalAdd(!modalAdd);
   };
 
-  const buttonTop =
-    "fixed flex gap-2 px-3 py-2 font-bold text-white rounded-md";
-
   const testeJson = {
     Endereço: "A1-01",
     Código: 31333,
@@ -34,20 +32,20 @@ function ControlPanelPage() {
     <div className="flex flex-col flex-grow p-4 overflow-x-hidden bg-gray-200">
       <div className="flex items-center">
         <Title>Painel de Controle</Title>
-        <button
-          className={`${buttonTop} right-40 bg-blue-500 hover:bg-blue-600`}
+        <ButtonTabs
+          bgColor="right-40 bg-blue-500 hover:bg-blue-600"
           onClick={toggleModalSearch}
         >
           <SearchIcon />
           Pesquisar
-        </button>
-        <button
-          className={`${buttonTop} right-5 bg-green-500 hover:bg-green-600`}
+        </ButtonTabs>
+        <ButtonTabs
+          bgColor="right-5 bg-green-500 hover:bg-green-600"
           onClick={toggleModalAdd}
         >
           <PlusCircleIcon />
           Adicionar
-        </button>
+        </ButtonTabs>
       </div>
       <Table data={testeJson} />
       {modalSearch && <SearchModal toggleModalSearch={toggleModalSearch} />}

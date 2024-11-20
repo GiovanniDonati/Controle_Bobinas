@@ -13,14 +13,14 @@ function SearchModal({ toggleModalSearch }) {
         <ModalInput placeholder="Lote" type="number" />
         <div className="flex justify-around">
           <ButtonModal
-            bgColor="bg-red-500 hover:bg-red-600"
+            bgColor={"bg-red-500 hover:bg-red-600"}
             onClick={toggleModalSearch}
           >
             Fechar
           </ButtonModal>
           <ButtonModal
             onClick={toggleModalSearch}
-            bgColor="bg-blue-500 hover:bg-blue-600"
+            bgColor={"bg-blue-500 hover:bg-blue-600"}
           >
             Pesquisar
           </ButtonModal>

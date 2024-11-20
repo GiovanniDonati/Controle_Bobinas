@@ -5,7 +5,7 @@ function ButtonTabs({ bgColor, ...props }) {
       {...props}
       className={`fixed flex gap-2 px-3 py-2 font-bold text-white rounded-md ${bgColor}`}
     >
-      {props}
+      {props.children}
     </button>
   );
 }

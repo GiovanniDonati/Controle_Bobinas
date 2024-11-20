@@ -1,11 +1,10 @@
 /* eslint-disable react/prop-types */
+import ButtonModal from "../button/ButtonModal";
 import ModalInput from "../ModalInput";
 
 function AddModal({ toggleModalAdd }) {
-  const buttonModal =
-    "min-lg:w-[30%] text-lg font-semibold px-4 py-3 text-white rounded-md text-center w-[40%]";
   return (
-    <div className="fixed inset-0 flex items-start justify-center pt-20 bg-black/20">
+    <div className="fixed inset-0 flex items-start justify-center pt-10 bg-black/20">
       <div className="flex flex-col justify-center w-4/12 max-w-xl p-6 space-y-4 bg-white rounded-lg md:w-4/6 shadow-">
         <h2 className="mb-2 text-2xl font-semibold">Adicionar bobina</h2>
         <div className="flex w-full gap-5">
@@ -25,18 +24,18 @@ function AddModal({ toggleModalAdd }) {
         <ModalInput placeholder="Lote" type="number" />
         <ModalInput placeholder="Data" type="date" />
         <div className="flex justify-around">
-          <button
+          <ButtonModal
             onClick={toggleModalAdd}
-            className={`bg-red-500 hover:bg-red-600 ${buttonModal}`}
+            bgColor="bg-red-500 hover:bg-red-600"
           >
             Fechar
-          </button>
-          <button
+          </ButtonModal>
+          <ButtonModal
             onClick={toggleModalAdd}
-            className={`bg-blue-500 hover:bg-blue-600 ${buttonModal}`}
+            bgColor="bg-blue-500 hover:bg-blue-600"
           >
             Pesquisar
-          </button>
+          </ButtonModal>
         </div>
       </div>
     </div>

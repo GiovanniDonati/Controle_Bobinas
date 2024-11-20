@@ -5,7 +5,7 @@ function ButtonModal({ bgColor, ...props }) {
       {...props}
       className={`w-[30%] text-lg font-semibold px-4 py-3 text-white rounded-md ${bgColor}`}
     >
-      {props}
+      {props.children}
     </button>
   );
 }
