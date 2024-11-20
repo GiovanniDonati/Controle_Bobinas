@@ -1,14 +1,12 @@
+/* eslint-disable react/prop-types */
 import { ArrowRightLeftIcon, QrCodeIcon, Trash2Icon } from "lucide-react";
 
-function TableRow() {
+function TableRow({ rowData }) {
   return (
     <tr className="odd:bg-blue-50 even:bg-white hover:bg-yellow-50">
-      <Row>A-01-02</Row>
-      <Row>31333</Row>
-      <Row>CORTINA LAMINADA AZUL/PRATA 120G/M2 L=3,20 PROPEX</Row>
-      <Row>500 {"Mt"}</Row>
-      <Row>12345678</Row>
-      <Row>24/10/2024</Row>
+      {Object.values(rowData).map((value, index) => (
+        <TableCol key={index}>{value}</TableCol>
+      ))}
       <td className="flex justify-center py-2 gap-x-1 whitespace-nowrap">
         <ArrowRightLeftIcon className="w-6 h-6 text-yellow-500 cursor-pointer hover:text-yellow-300" />
         <QrCodeIcon className="w-6 h-6 text-black cursor-pointer hover:text-gray-500" />
@@ -18,13 +16,12 @@ function TableRow() {
   );
 }
 
-export default TableRow;
-
-function Row({ ...props }) {
+function TableCol({ children }) {
   return (
-    <td
-      {...props}
-      className="px-1 py-2 text-base text-center text-gray-700 max-lg:text-sm border-x-2 whitespace-nowrap"
-    />
+    <td className="px-1 py-2 text-base text-center text-gray-700 max-lg:text-sm border-x-2 whitespace-nowrap">
+      {children}
+    </td>
   );
 }
+
+export default TableRow;

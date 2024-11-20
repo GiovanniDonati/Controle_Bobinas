@@ -9,8 +9,15 @@ import {
   UserCircle2,
 } from "lucide-react";
 import ButtonAside from "./button/ButtonAside";
+import { useNavigate } from "react-router-dom";
 
 function Aside({ tabOpen, setTabOpen, menuVisibility, setMenuVisibily }) {
+  const navigate = useNavigate();
+
+  const handleExit = () => {
+    navigate("/login");
+  };
+
   const desktop = window.innerWidth > 1024;
   return (
     <div
@@ -24,7 +31,9 @@ function Aside({ tabOpen, setTabOpen, menuVisibility, setMenuVisibily }) {
         <div className="flex flex-col items-center px-2 pt-1 bg-white rounded-md shadow-lg w-28 justify-">
           <UserCircle2 />
           <button>Admin</button>
-          <button className="self-end text-sm">Sair</button>
+          <button className="self-end text-sm" onClick={handleExit}>
+            Sair
+          </button>
         </div>
       )}
       {!desktop && (

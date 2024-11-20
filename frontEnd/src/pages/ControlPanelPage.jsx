@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { PlusCircleIcon, SearchIcon } from "lucide-react";
-import Table from "../components/Table/DashboardTable";
+import Table from "../components/Table/Table";
 import Title from "../components/Title";
 import SearchModal from "../components/Modal/SearchModal";
 import AddModal from "../components/Modal/AddModal";
@@ -21,6 +21,15 @@ function ControlPanelPage() {
   const buttonTop =
     "fixed flex gap-2 px-3 py-2 font-bold text-white rounded-md";
 
+  const testeJson = {
+    Endereço: "A1-01",
+    Código: 31333,
+    Descrição: "CORTINA LAMINADA BRANCA/METALIZADO 155G/M2 L=1,60 TEXTIL",
+    Mts: 500,
+    Lote: "12345678",
+    "Data Criação": "24/10/2024",
+  };
+
   return (
     <div className="flex flex-col flex-grow p-4 overflow-x-hidden bg-gray-200">
       <div className="flex items-center">
@@ -40,7 +49,7 @@ function ControlPanelPage() {
           Adicionar
         </button>
       </div>
-      <Table />
+      <Table data={testeJson} />
       {modalSearch && <SearchModal toggleModalSearch={toggleModalSearch} />}
       {modalAdd && <AddModal toggleModalAdd={toggleModalAdd} />}
     </div>

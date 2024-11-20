@@ -1,36 +1,22 @@
-import { useState } from "react";
-import Aside from "./components/Aside";
-import ControlPanelPage from "./pages/ControlPanelPage";
-import ProductionPage from "./pages/ProductionPage";
-import RetailPage from "./pages/RetailPage";
-import HistoricPage from "./pages/HistoricPage";
-import VisualPage from "./pages/VisualPage";
+// import LoginPage from "./pages/LoginPage";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import Home from "./pages/Home";
 
 function App() {
-  const [tabOpen, setTabOpen] = useState("dashboard");
-  const [menuVisibility, setMenuVisibily] = useState(false);
-
   return (
-    <div className="flex w-full h-screen">
-      <Aside
-        tabOpen={tabOpen}
-        setTabOpen={setTabOpen}
-        menuVisibility={menuVisibility}
-        setMenuVisibily={setMenuVisibily}
-      />
-
-      {tabOpen === "dashboard" ? (
-        <ControlPanelPage />
-      ) : tabOpen === "production" ? (
-        <ProductionPage />
-      ) : tabOpen === "retalhos" ? (
-        <RetailPage />
-      ) : tabOpen === "history" ? (
-        <HistoricPage />
-      ) : (
-        tabOpen === "visual" && <VisualPage />
-      )}
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/home" element={<Home />} />
+      </Routes>
+    </Router>
   );
 }
 
